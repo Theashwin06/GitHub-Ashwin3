@@ -1,0 +1,591 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const PeriodicTableApp());
+}
+
+
+class Element {
+  final String symbol;
+  final String name;
+  final int atomicNumber;
+  final double atomicWeight;
+  final String discoveredBy;
+  final ElementType type;
+
+  Element({
+    required this.symbol,
+    required this.name,
+    required this.atomicNumber,
+    required this.atomicWeight,
+    required this.discoveredBy,
+    required this.type,
+  });
+}
+
+enum ElementType {
+  alkaliMetal,
+  alkalineEarthMetal,
+  transitionMetal,
+  metalloid,
+  nonMetal,
+  halogen,
+  nobleGas,
+  lanthanide,
+  actinide,
+}
+
+Map<ElementType, Color> elementTypeColors = {
+  ElementType.alkaliMetal: Colors.redAccent,
+  ElementType.alkalineEarthMetal: Colors.orangeAccent,
+  ElementType.transitionMetal: Colors.yellowAccent,
+  ElementType.metalloid: Colors.greenAccent,
+  ElementType.nonMetal: Colors.blueAccent,
+  ElementType.halogen: Colors.purpleAccent,
+  ElementType.nobleGas: Colors.pinkAccent,
+  ElementType.lanthanide: Colors.tealAccent,
+  ElementType.actinide: Colors.brown,
+};
+
+final List<Element> elements = [
+  Element(
+    symbol: 'H',
+    name: 'Hydrogen',
+    atomicNumber: 1,
+    atomicWeight: 1.008,
+    discoveredBy: 'Henry Cavendish',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'He',
+    name: 'Helium',
+    atomicNumber: 2,
+    atomicWeight: 4.0026,
+    discoveredBy: 'Pierre Janssen',
+    type: ElementType.nobleGas,
+  ),
+  Element(
+    symbol: 'Li',
+    name: 'Lithium',
+    atomicNumber: 3,
+    atomicWeight: 6.967,
+    discoveredBy: 'John August Arfwedson',
+    type: ElementType.alkaliMetal,
+  ),
+  Element(
+    symbol: 'Be',
+    name: 'Beryllium',
+    atomicNumber: 4,
+    atomicWeight: 9.0122,
+    discoveredBy: 'Louis-Nicolas Vauquelin',
+    type: ElementType.alkalineEarthMetal,
+  ),
+  Element(
+    symbol: 'B',
+    name: 'Boron',
+    atomicNumber: 5,
+    atomicWeight: 10.81,
+    discoveredBy: 'Joseph-Louis Gay-Lussac & Louis-Jacques Thénard',
+    type: ElementType.metalloid,
+  ),
+  
+
+  Element(
+    symbol: 'C',
+    name: 'Carbon',
+    atomicNumber: 6,
+    atomicWeight: 12.011,
+    discoveredBy: 'Known since ancient times',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'N',
+    name: 'Nitrogen',
+    atomicNumber: 7,
+    atomicWeight: 14.007,
+    discoveredBy: 'Daniel Rutherford',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'O',
+    name: 'Oxygen',
+    atomicNumber: 8,
+    atomicWeight: 15.999,
+    discoveredBy: 'Joseph Priestley & Carl Wilhelm Scheele',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'F',
+    name: 'Fluorine',
+    atomicNumber: 9,
+    atomicWeight: 18.998,
+    discoveredBy: 'Henri Moissan',
+    type: ElementType.halogen,
+  ),
+  Element(
+    symbol: 'Ne',
+    name: 'Neon',
+    atomicNumber: 10,
+    atomicWeight: 20.180,
+    discoveredBy: 'Sir William Ramsay & Morris Travers',
+    type: ElementType.nobleGas,
+  ),
+  Element(
+    symbol: 'Na',
+    name: 'Sodium',
+    atomicNumber: 11,
+    atomicWeight: 22.990,
+    discoveredBy: 'Sir Humphry Davy',
+    type: ElementType.alkaliMetal,
+  ),
+  Element(
+    symbol: 'Mg',
+    name: 'Magnesium',
+    atomicNumber: 12,
+    atomicWeight: 24.305,
+    discoveredBy: 'Joseph Black',
+    type: ElementType.alkalineEarthMetal,
+  ),
+  Element(
+    symbol: 'Al',
+    name: 'Aluminium',
+    atomicNumber: 13,
+    atomicWeight: 26.982,
+    discoveredBy: 'Hans Christian orsted',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Si',
+    name: 'Silicon',
+    atomicNumber: 14,
+    atomicWeight: 28.085,
+    discoveredBy: 'Jöns Jacob Berzelius',
+    type: ElementType.metalloid,
+  ),
+  Element(
+    symbol: 'P',
+    name: 'Phosphorus',
+    atomicNumber: 15,
+    atomicWeight: 30.974,
+    discoveredBy: 'Hennig Brand',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'S',
+    name: 'Sulfur',
+    atomicNumber: 16,
+    atomicWeight: 32.06,
+    discoveredBy: 'Known since ancient times',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'Cl',
+    name: 'Chlorine',
+    atomicNumber: 17,
+    atomicWeight: 35.45,
+    discoveredBy: 'Carl Wilhelm Scheele',
+    type: ElementType.halogen,
+  ),
+  Element(
+    symbol: 'Ar',
+    name: 'Argon',
+    atomicNumber: 18,
+    atomicWeight: 39.948,
+    discoveredBy: 'Lord Rayleigh & Sir William Ramsay',
+    type: ElementType.nobleGas,
+  ),
+  Element(
+    symbol: 'K',
+    name: 'Potassium',
+    atomicNumber: 19,
+    atomicWeight: 39.098,
+    discoveredBy: 'Sir Humphry Davy',
+    type: ElementType.alkaliMetal,
+  ),
+  Element(
+    symbol: 'Ca',
+    name: 'Calcium',
+    atomicNumber: 20,
+    atomicWeight: 40.078,
+    discoveredBy: 'Sir Humphry Davy',
+    type: ElementType.alkalineEarthMetal,
+  ),
+  Element(
+    symbol: 'Sc',
+    name: 'Scandium',
+    atomicNumber: 21,
+    atomicWeight: 44.956,
+    discoveredBy: 'Lars Fredrik Nilson',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Ti',
+    name: 'Titanium',
+    atomicNumber: 22,
+    atomicWeight: 47.867,
+    discoveredBy: 'William Gregor',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'V',
+    name: 'Vanadium',
+    atomicNumber: 23,
+    atomicWeight: 50.942,
+    discoveredBy: 'Andrés Manuel del Río',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Cr',
+    name: 'Chromium',
+    atomicNumber: 24,
+    atomicWeight: 51.996,
+    discoveredBy: 'Louis Nicolas Vauquelin',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Mn',
+    name: 'Manganese',
+    atomicNumber: 25,
+    atomicWeight: 54.938,
+    discoveredBy: 'Carl Wilhelm Scheele',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Fe',
+    name: 'Iron',
+    atomicNumber: 26,
+    atomicWeight: 55.845,
+    discoveredBy: 'Known since ancient times',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Co',
+    name: 'Cobalt',
+    atomicNumber: 27,
+    atomicWeight: 58.933,
+    discoveredBy: 'Georg Brandt',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Ni',
+    name: 'Nickel',
+    atomicNumber: 28,
+    atomicWeight: 58.693,
+    discoveredBy: 'Axel Fredrik Cronstedt',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Cu',
+    name: 'Copper',
+    atomicNumber: 29,
+    atomicWeight: 63.546,
+    discoveredBy: 'Known since ancient times',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Zn',
+    name: 'Zinc',
+    atomicNumber: 30,
+    atomicWeight: 65.38,
+    discoveredBy: 'Andreas Sigismund Marggraf',
+    type: ElementType.transitionMetal,
+  ),
+  Element(
+    symbol: 'Ga',
+    name: 'Gallium',
+    atomicNumber: 31,
+    atomicWeight: 69.723,
+    discoveredBy: 'Paul-Émile Lecoq de Boisbaudran',
+    type: ElementType.metalloid,
+  ),
+  Element(
+    symbol: 'Ge',
+    name: 'Germanium',
+    atomicNumber: 32,
+    atomicWeight: 72.63,
+    discoveredBy: 'Clemens Winkler',
+    type: ElementType.metalloid,
+  ),
+  Element(
+    symbol: 'As',
+    name: 'Arsenic',
+    atomicNumber: 33,
+    atomicWeight: 74.922,
+    discoveredBy: 'Albertus Magnus',
+    type: ElementType.metalloid,
+  ),
+  Element(
+    symbol: 'Se',
+    name: 'Selenium',
+    atomicNumber: 34,
+    atomicWeight: 78.971,
+    discoveredBy: 'Jöns Jacob Berzelius',
+    type: ElementType.nonMetal,
+  ),
+  Element(
+    symbol: 'Br',
+    name: 'Bromine',
+    atomicNumber: 35,
+    atomicWeight: 79.904,
+    discoveredBy: 'Antoine-Jérôme Balard & Carl Löwig',
+    type: ElementType.halogen,
+  ),
+  Element(
+    symbol: 'Kr',
+    name: 'Krypton',
+    atomicNumber: 36,
+    atomicWeight: 83.798,
+    discoveredBy: 'Sir William Ramsay & Morris Travers',
+    type: ElementType.nobleGas,
+  ),
+
+
+];
+
+class PeriodicTableApp extends StatelessWidget {
+  const PeriodicTableApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      home: const PeriodicTableScreen(),
+    );
+  }
+}
+
+class PeriodicTableScreen extends StatelessWidget {
+  const PeriodicTableScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Periodic Table'),
+        backgroundColor: Colors.black,
+      ),
+      backgroundColor: Colors.grey[900],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+          ),
+          itemCount: elements.length,
+          itemBuilder: (context, index) {
+            final element = elements[index];
+            return GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ElementDetailDialog(element: element),
+                );
+              },
+              child: ElementCard(element: element),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ElementCard extends StatelessWidget {
+  final Element element;
+
+  const ElementCard({super.key, required this.element});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: elementTypeColors[element.type],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              element.symbol,
+              style: const TextStyle(
+                fontSize: 56,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              element.name,
+              style: const TextStyle(
+                fontSize: 32,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Atomic No: ${element.atomicNumber}',
+              style: const TextStyle(
+                fontSize: 32,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              'Atomic Weight: ${element.atomicWeight}',
+              style: const TextStyle(
+                fontSize: 24,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              'Discovered by: ${element.discoveredBy}',
+              style: const TextStyle(
+                fontSize: 24,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ElementDetailDialog extends StatelessWidget {
+  final Element element;
+
+  const ElementDetailDialog({super.key, required this.element});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              element.name,
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElectronOrbital(element: element),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ElectronOrbital extends StatelessWidget {
+  final Element element;
+
+  const ElectronOrbital({super.key, required this.element});
+
+  @override
+  Widget build(BuildContext context) {
+    int atomicNumber = element.atomicNumber;
+    List<int> shells = calculateElectronDistribution(atomicNumber);
+
+    return Center(
+      child: SizedBox(
+        height: 300,
+        width: 300,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  element.symbol,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            for (int i = 0; i < shells.length; i++)
+              ElectronShell(radius: (i + 1) * 50.0, electronCount: shells[i]),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ElectronShell extends StatelessWidget {
+  final double radius;
+  final int electronCount;
+
+  const ElectronShell({super.key, required this.radius, required this.electronCount});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: radius * 2,
+      height: radius * 2,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white38),
+      ),
+      child: Stack(
+        children: [
+          for (int i = 0; i < electronCount; i++)
+            Positioned(
+              left: radius + radius * cos(2 * pi * i / electronCount) - 10,
+              top: radius + radius * sin(2 * pi * i / electronCount) - 10,
+              child: const Electron(),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class Electron extends StatelessWidget {
+  const Electron({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: const BoxDecoration(
+        color: Colors.blue,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
+}
+
+List<int> calculateElectronDistribution(int atomicNumber) {
+  List<int> shells = [];
+  int remainingElectrons = atomicNumber;
+  int shellCapacity = 2;
+
+  while (remainingElectrons > 0) {
+    int electronsInShell = remainingElectrons > shellCapacity ? shellCapacity : remainingElectrons;
+    shells.add(electronsInShell);
+    remainingElectrons -= electronsInShell;
+    shellCapacity = shellCapacity == 2 ? 8 : shellCapacity + 8; 
+  }
+
+  return shells;
+}
+
